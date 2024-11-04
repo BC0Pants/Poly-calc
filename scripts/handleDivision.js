@@ -17,11 +17,11 @@ export function handleDivision() {
     let secondPolyCoeffArr = secondPolyParsed.map(arr => arr[0]);
     let secondPolyPowArr = secondPolyParsed.map(arr => arr[1]);
 
-    let maxPower = Math.max(...firstPolyPowArr);
-    let minPower = Math.min(...firstPolyPowArr);
+    let maxPowerFirstArr = Math.max(...firstPolyPowArr);
+    let minPowerFirstArr = Math.min(...firstPolyPowArr);
     let fullFirstPolyCoeffArr = [];
 
-    for (let i = maxPower; i >= minPower; i--) {
+    for (let i = maxPowerFirstArr; i >= minPowerFirstArr; i--) {
         let index = firstPolyPowArr.indexOf(i);
         if (index !== -1) {
             fullFirstPolyCoeffArr.push(firstPolyCoeffArr[index]);
@@ -30,7 +30,22 @@ export function handleDivision() {
         }
     }
 
-    const result = dividePolynomials(fullFirstPolyCoeffArr, secondPolyCoeffArr);
+    let maxPowerSecondArr = Math.max(...secondPolyPowArr);
+    let minPowerSecondArr = Math.min(...secondPolyPowArr);
+    let fullSecondPolyCoeffArr = [];
+
+
+    for (let i = maxPowerSecondArr; i >= minPowerSecondArr; i--) {
+        let index = secondPolyPowArr.indexOf(i);
+        if (index !== -1) {
+            fullSecondPolyCoeffArr.push(secondPolyCoeffArr[index]);
+        } else {
+            fullSecondPolyCoeffArr.push(0);
+        }
+    }
+
+
+    const result = dividePolynomials(fullFirstPolyCoeffArr, fullSecondPolyCoeffArr);
 
     const quotientPolynomial = formatPolynomial(result.quotient, result.quotient.map((_, i) => result.quotient.length - 1 - i));
     const remainderPolynomial = formatPolynomial(result.remainder, result.remainder.map((_, i) => result.remainder.length - 1 - i));
