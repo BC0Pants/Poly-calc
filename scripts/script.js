@@ -1,26 +1,45 @@
-import { findRoots } from './findRoots.js';
-import { handleDivision } from './handleDivision.js';
+import { findRoots } from "./findRoots.js";
+import { handleDivision } from "./handleDivision.js";
 
 function openTab(tabName) {
-    const tabcontent = document.getElementsByClassName("tabcontent");
-    for (let i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    document.getElementById(tabName).style.display = "block";
+  const tabContents = document.getElementsByClassName("tabcontent");
+  const tabLinks = document.getElementsByClassName("tablink");
+
+  // Hide all tab content and remove active class from tab links
+  for (const content of tabContents) {
+    content.style.display = "none";
+    content.classList.remove("active");
+  }
+  for (const link of tabLinks) {
+    link.classList.remove("active");
+  }
+
+  // Show the selected tab content and add active class to the corresponding tab link
+  document.getElementById(tabName).style.display = "block";
+  document.querySelector(`#${tabName}-tab`).classList.add("active");
 }
 
-window.addEventListener('load', () => {
-    document.querySelector("#division-tab").addEventListener("click", () => openTab('division'));
-    document.querySelector("#roots-tab").addEventListener("click", () => openTab('roots'));
+window.addEventListener("load", () => {
+  // Tab switch event listeners
+  document
+    .querySelector("#division-tab")
+    .addEventListener("click", () => openTab("division"));
+  document
+    .querySelector("#roots-tab")
+    .addEventListener("click", () => openTab("roots"));
 
-    document.querySelector("#divide-btn").addEventListener("click", handleDivision);
+  // Button click event listeners
+  document
+    .querySelector("#divide-btn")
+    .addEventListener("click", handleDivision);
 
-    document.querySelector("#find-roots-btn").addEventListener("click", () => {
-        const polyInput = document.querySelector("#polynomial").value;
-        const roots = findRoots(polyInput);
-        const resultDiv = document.querySelector("#result-roots");
-        resultDiv.innerHTML = `<p><strong>Roots:</strong> ${roots.join(', ')}</p>`;
-    });
+  document.querySelector("#find-roots-btn").addEventListener("click", () => {
+    const polyInput = document.querySelector("#polynomial").value;
+    const roots = findRoots(polyInput);
+    const resultDiv = document.querySelector("#result-roots");
+    resultDiv.innerHTML = `<p><strong>Roots:</strong> ${roots.join(", ")}</p>`;
+  });
 
-    openTab('division');
+  // Initialize the default tab
+  openTab("division");
 });
